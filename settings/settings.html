@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Cover Letter — Настройки</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <h1>AI Cover Letter</h1>
+      </div>
+      <p class="header__subtitle">Настройки расширения</p>
+    </header>
+
+    <div id="toast" class="toast hidden">
+      <span id="toastText"></span>
+    </div>
+
+    <!-- AI Provider Section -->
+    <section class="card">
+      <div class="card__header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+        </svg>
+        <h2>AI-провайдер</h2>
+      </div>
+
+      <!-- Provider tabs -->
+      <div class="provider-tabs">
+        <button class="provider-tab active" data-provider="gemini">
+          <span class="provider-tab__icon">G</span>
+          Google Gemini
+        </button>
+        <button class="provider-tab" data-provider="openai">
+          <span class="provider-tab__icon">O</span>
+          OpenAI
+        </button>
+        <button class="provider-tab" data-provider="deepseek">
+          <span class="provider-tab__icon">D</span>
+          DeepSeek
+        </button>
+      </div>
+
+      <!-- Gemini settings -->
+      <div class="provider-panel active" data-panel="gemini">
+        <p class="card__description">
+          Получите ключ на <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> (бесплатно).
+        </p>
+        <div class="form-group">
+          <label for="apiKey_gemini">API Key</label>
+          <div class="input-group">
+            <input type="password" id="apiKey_gemini" placeholder="AIza..." autocomplete="off">
+            <button class="btn-icon toggle-visibility" data-target="apiKey_gemini" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="model_gemini">Модель</label>
+          <select id="model_gemini">
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (рекомендуемый)</option>
+            <option value="gemini-3-flash-preview">Gemini 3 Flash (preview)</option>
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+            <option value="gemini-2.0-flash-lite">Gemini 2.0 Flash Lite (быстрый)</option>
+            <option value="gemini-2.5-pro">Gemini 2.5 Pro (высшее качество)</option>
+          </select>
+          <p class="form-hint">При ошибке квоты расширение автоматически попробует другие модели</p>
+        </div>
+      </div>
+
+      <!-- OpenAI settings -->
+      <div class="provider-panel" data-panel="openai">
+        <p class="card__description">
+          Получите ключ на <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">OpenAI Platform</a> (платный).
+        </p>
+        <div class="form-group">
+          <label for="apiKey_openai">API Key</label>
+          <div class="input-group">
+            <input type="password" id="apiKey_openai" placeholder="sk-..." autocomplete="off">
+            <button class="btn-icon toggle-visibility" data-target="apiKey_openai" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="model_openai">Модель</label>
+          <select id="model_openai">
+            <option value="gpt-4.1-nano">GPT-4.1 Nano (быстрый, дешёвый)</option>
+            <option value="gpt-4.1-mini">GPT-4.1 Mini (баланс)</option>
+            <option value="gpt-4.1">GPT-4.1 (высшее качество)</option>
+            <option value="gpt-4o">GPT-4o</option>
+            <option value="gpt-4o-mini">GPT-4o Mini</option>
+            <option value="o4-mini">o4-mini (рассуждения)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- DeepSeek settings -->
+      <div class="provider-panel" data-panel="deepseek">
+        <p class="card__description">
+          Получите ключ на <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">DeepSeek Platform</a> (дешёвый).
+        </p>
+        <div class="form-group">
+          <label for="apiKey_deepseek">API Key</label>
+          <div class="input-group">
+            <input type="password" id="apiKey_deepseek" placeholder="sk-..." autocomplete="off">
+            <button class="btn-icon toggle-visibility" data-target="apiKey_deepseek" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="model_deepseek">Модель</label>
+          <select id="model_deepseek">
+            <option value="deepseek-chat">DeepSeek V3 (рекомендуемый)</option>
+            <option value="deepseek-reasoner">DeepSeek R1 (рассуждения)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card__actions">
+        <button id="saveProvider" class="btn btn--primary">Сохранить</button>
+        <button id="testProvider" class="btn btn--outline">Проверить ключ</button>
+      </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section class="card">
+      <div class="card__header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <h2>Профиль кандидата</h2>
+      </div>
+      <p class="card__description">
+        Эти данные используются при генерации письма для персонализации.
+      </p>
+
+      <div class="form-group">
+        <label for="profileName">Имя</label>
+        <input type="text" id="profileName" placeholder="Иван Петров">
+      </div>
+
+      <div class="form-group">
+        <label for="profileSkills">Ключевые навыки</label>
+        <textarea id="profileSkills" rows="3" placeholder="JavaScript, React, Node.js, TypeScript, PostgreSQL, Docker..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="profileExperience">Опыт работы</label>
+        <textarea id="profileExperience" rows="4" placeholder="5 лет опыта full-stack разработки. Работал в финтех-компании, разрабатывал высоконагруженные сервисы..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="profileEducation">Образование</label>
+        <input type="text" id="profileEducation" placeholder="Бакалавр компьютерных наук, МГУ">
+      </div>
+
+      <div class="form-group">
+        <label for="profileTone">Тон по умолчанию</label>
+        <select id="profileTone">
+          <option value="professional">Профессиональный</option>
+          <option value="friendly">Дружелюбный</option>
+          <option value="confident">Уверенный</option>
+          <option value="formal">Официальный</option>
+        </select>
+      </div>
+
+      <div class="card__actions">
+        <button id="saveProfile" class="btn btn--primary">Сохранить профиль</button>
+        <button id="resetProfile" class="btn btn--outline btn--danger">Сбросить</button>
+      </div>
+    </section>
+
+    <!-- History Section -->
+    <section class="card">
+      <div class="card__header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <h2>История писем</h2>
+      </div>
+      <div id="historyList" class="history-list">
+        <p class="text-muted">История пуста</p>
+      </div>
+      <div class="card__actions">
+        <button id="clearHistory" class="btn btn--outline btn--danger btn--small">Очистить историю</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>AI Cover Letter Generator v1.0.0</p>
+      <p>Powered by Gemini / OpenAI / DeepSeek</p>
+    </footer>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
