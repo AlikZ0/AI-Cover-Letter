@@ -1,40 +1,51 @@
 # AI Cover Letter Generator — Chrome Extension
 
-Расширение для Chrome, которое анализирует страницы вакансий и генерирует персонализированные сопроводительные письма с помощью Gemini AI.
+Расширение для Chrome, которое анализирует страницы вакансий и генерирует персонализированные сопроводительные письма с помощью Google Gemini, OpenAI и DeepSeek.
 
 ## Возможности
 
+- **Три AI-провайдера** — Google Gemini, OpenAI и DeepSeek на выбор с автоматическим fallback между моделями
 - **Автоматический парсинг** — извлекает название, компанию, требования и описание вакансии
 - **Мультиплатформенность** — LinkedIn, HeadHunter (hh.ru/hh.kz), Indeed, Glassdoor + универсальный парсер
-- **Генерация AI** — Gemini API создаёт персонализированное письмо под конкретную вакансию
 - **Определение языка** — автоматически определяет язык вакансии и генерирует письмо на том же языке
 - **Профиль кандидата** — сохраняет навыки, опыт и образование для персонализации
 - **Выбор тона** — профессиональный, дружелюбный, уверенный или официальный
 - **История писем** — хранит последние 50 сгенерированных писем
-- **Безопасность** — API-ключ хранится в `chrome.storage` и используется только в background worker
+- **Понятные ошибки** — русскоязычные сообщения вместо технических ответов API
+- **Безопасность** — API-ключи хранятся в `chrome.storage` и используются только в background worker
+
+## AI-провайдеры
+
+| Провайдер | Модели | Стоимость | Получить ключ |
+|-----------|--------|-----------|---------------|
+| **Google Gemini** | 2.5 Flash, 3 Flash, 2.0 Flash, 2.0 Flash Lite, 2.5 Pro | Бесплатный лимит | [aistudio.google.com](https://aistudio.google.com/apikey) |
+| **OpenAI** | GPT-4.1 Nano/Mini/Full, GPT-4o, GPT-4o Mini, o4-mini | Платный | [platform.openai.com](https://platform.openai.com/api-keys) |
+| **DeepSeek** | V3 (chat), R1 (reasoner) | Платный (дешёвый) | [platform.deepseek.com](https://platform.deepseek.com/api_keys) |
+
+При ошибке квоты или недоступности модели расширение автоматически пробует следующую модель того же провайдера.
 
 ## Структура проекта
 
 ```
-├── manifest.json          # Конфигурация расширения (Manifest V3)
+├── manifest.json            # Конфигурация расширения (Manifest V3)
 ├── background/
-│   └── service-worker.js  # Background worker — API вызовы, маршрутизация
+│   └── service-worker.js    # Background worker — маршрутизация, вызовы AI API
 ├── content/
-│   └── index.js           # Content script — парсинг страницы вакансии
+│   └── index.js             # Content script — парсинг страницы вакансии
 ├── popup/
-│   ├── popup.html         # Основной интерфейс расширения
-│   ├── popup.css          # Стили popup
-│   └── popup.js           # Логика popup
+│   ├── popup.html           # Основной интерфейс расширения
+│   ├── popup.css            # Стили popup
+│   └── popup.js             # Логика popup
 ├── settings/
-│   ├── settings.html      # Страница настроек
-│   ├── settings.css       # Стили настроек
-│   └── settings.js        # Логика настроек
+│   ├── settings.html        # Страница настроек (провайдеры, профиль, история)
+│   ├── settings.css         # Стили настроек
+│   └── settings.js          # Логика настроек
 ├── services/
-│   └── gemini.js          # Интеграция с Gemini API
+│   └── gemini.js            # Единый AI-сервис (Gemini + OpenAI + DeepSeek)
 ├── utils/
-│   ├── parsers.js         # Парсеры вакансий (LinkedIn, HH, Indeed, Glassdoor)
+│   ├── parsers.js           # Парсеры вакансий (LinkedIn, HH, Indeed, Glassdoor)
 │   ├── language-detector.js # Определение языка текста
-│   └── storage.js         # Обёртка над chrome.storage
+│   └── storage.js           # Обёртка над chrome.storage
 └── icons/
     ├── icon16.png
     ├── icon48.png
@@ -43,11 +54,13 @@
 
 ## Установка
 
-### 1. Получите API-ключ Gemini
+### 1. Получите API-ключ
 
-1. Перейдите на [Google AI Studio](https://aistudio.google.com/apikey)
-2. Создайте API-ключ
-3. Скопируйте его
+Выберите одного из провайдеров:
+
+- **Gemini (бесплатно):** перейдите на [Google AI Studio](https://aistudio.google.com/apikey) → создайте ключ
+- **OpenAI (платный):** перейдите на [OpenAI Platform](https://platform.openai.com/api-keys) → создайте ключ → пополните баланс
+- **DeepSeek (дешёвый):** перейдите на [DeepSeek Platform](https://platform.deepseek.com/api_keys) → создайте ключ → пополните баланс
 
 ### 2. Установите расширение в Chrome
 
@@ -59,8 +72,10 @@
 ### 3. Настройте расширение
 
 1. Нажмите на иконку расширения → шестерёнку (настройки)
-2. Вставьте API-ключ Gemini и нажмите **Сохранить**
-3. Заполните профиль кандидата (имя, навыки, опыт)
+2. Выберите вкладку провайдера (Gemini / OpenAI / DeepSeek)
+3. Вставьте API-ключ, выберите модель и нажмите **Сохранить**
+4. Нажмите **Проверить ключ** для валидации
+5. Заполните профиль кандидата (имя, навыки, опыт)
 
 ## Использование
 
@@ -93,15 +108,17 @@
 
 ## Безопасность
 
-- API-ключ **никогда не передаётся** в content scripts
-- Все вызовы к Gemini API происходят через background service worker
-- Данные хранятся локально в `chrome.storage.local`
+- API-ключи **никогда не передаются** в content scripts
+- Все вызовы к AI API происходят через background service worker
+- Каждый провайдер хранит свой ключ отдельно в `chrome.storage.local`
 - Расширение запрашивает минимальные разрешения
 
 ## Технологии
 
 - Chrome Extension Manifest V3
 - Vanilla JavaScript (ES2022+)
-- Gemini 2.0 Flash API
+- Google Gemini API (v1beta)
+- OpenAI Chat Completions API (v1)
+- DeepSeek API (OpenAI-совместимый)
 - chrome.storage API
 - chrome.scripting API
